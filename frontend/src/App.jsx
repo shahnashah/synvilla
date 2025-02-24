@@ -7,6 +7,7 @@ import Cart from "./pages/cart";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import NotFoundPage from "./pages/NotFoundPage"
 import HomePage from "./pages/Home";
+import AdminPanel from "./pages/adminDashboard";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/product/:id" element={<ProductDetailPage/>}/>
       <Route path="*" element={<NotFoundPage/>}/>
+      <Route path="/AdminPanel" element={<AdminPanel/>}/>
       </Routes>
       
     </BrowserRouter>

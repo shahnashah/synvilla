@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
+import mongoose from "mongoose";
 import { connectDB } from "./src/lib/db.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import productRoutes from "./src/routes/product.routes.js";
