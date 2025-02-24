@@ -49,7 +49,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/cart")
+    axios.get("http://localhost:5001/cart")
       .then(response => setCartItems(response.data))
       .catch(error => console.error("Error fetching cart:", error));
   }, []);

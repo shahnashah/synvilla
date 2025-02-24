@@ -56,6 +56,7 @@
 
 
 import Product from '../models/product.model.js';
+import axios from "axios";
 
 // Get all products (with filters)
 export const getProducts = async (req, res) => {

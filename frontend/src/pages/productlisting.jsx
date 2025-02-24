@@ -1,17 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { fetchProducts } from "../api/api";
+//import { fetchProducts } from "../api/api";
 import ProductCard from "./ProductCard";
 
-const ProductList = () => {
-    const [products, setProducts] = useState([]);
+import axios from "axios";
+// const ProductList = () => {
+//     const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        const getProducts = async () => {
-            const data = await fetchProducts();
-            setProducts(data);
-        };
-        getProducts();
-    }, []);
+//     useEffect(() => {
+//         const getProducts = async () => {
+//             const data = await fetchProducts();
+//             setProducts(data);
+//         };
+//         getProducts();
+//     }, []);
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const ProductsList = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5001/api/products")
+      .then(res => setProducts(res.data))
+      .catch(err => console.error("Error fetching products:", err));
+  }, []);
 
     return (
         <div className="container mx-auto p-4">
