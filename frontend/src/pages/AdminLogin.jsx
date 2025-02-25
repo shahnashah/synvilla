@@ -1,48 +1,57 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function AdminLogin() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-  
-    const handleLogin = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.post("http://localhost:5000/api/admin/login", {
-          email,
-          password,
-        });
-        if (response.data.success) {
-          localStorage.setItem("adminToken", response.data.token);
-          navigate("/admin");
-        } else {
-          alert("Invalid credentials");
-        }
-      } catch (error) {
-        console.error("Login error", error);
-      }
-    };
-  
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <form onSubmit={handleLogin} className="p-6 border rounded-lg shadow-lg w-96">
-          <h2 className="text-2xl font-bold mb-4">Admin Login</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-2 border rounded mb-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 border rounded mb-2"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button type="submit">Login</Button>
+const AdminLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Dummy authentication logic
+    if (email === "admin@example.com" && password === "admin123") {
+      navigate("/admin-dashboard"); // Redirect after successful login
+    } else {
+      alert("Invalid Credentials");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-gray-700">Admin Login</h2>
+        <form className="mt-6" onSubmit={handleLogin}>
+          <div className="mb-4">
+            <label className="block text-gray-600">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#A0522D] focus:outline-none"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#A0522D] focus:outline-none"
+              required
+            />
+          </div>
+          {/* Correct button for form submission */}
+          <button
+            type="submit"
+            className="w-full bg-[#A0522D] text-white py-2 rounded-lg hover:bg-opacity-90"
+          >
+            Login
+          </button>
         </form>
       </div>
-    );
-  }
-  
+    </div>
+  );
+};
+
+export default AdminLogin;

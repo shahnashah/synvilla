@@ -1,61 +1,30 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function AdminDashboard() {
-  const [products, setProducts] = useState([]);
+const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/products");
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products", error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
-      setProducts(products.filter((product) => product._id !== id));
-    } catch (error) {
-      console.error("Error deleting product", error);
-    }
-  };
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      <Link to="/add-product">
-        <Button className="mb-4">Add Product</Button>
-      </Link>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <div key={product._id} className="p-4 border rounded-lg shadow-lg">
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="w-full h-40 object-cover rounded-md"
-            />
-            <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-            <p className="text-sm text-gray-600">{product.description}</p>
-            <div className="mt-2 flex justify-between">
-              <Link to={`/edit-product/${product._id}`}>
-                <Button>Edit</Button>
-              </Link>
-              <Button onClick={() => handleDelete(product._id)} variant="destructive">
-                Delete
-              </Button>
-            </div>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+      <h1 className="text-3xl font-bold text-[#A0522D] mb-6">Admin Dashboard</h1>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
+        <button 
+          onClick={() => navigate("/add-product")}
+          className="bg-white shadow-md p-4 rounded-lg text-center text-gray-700 font-semibold hover:bg-gray-200"
+        >
+          Add Product
+        </button>
+        
+        <button 
+          onClick={() => navigate("/manage-products")}
+          className="bg-white shadow-md p-4 rounded-lg text-center text-gray-700 font-semibold hover:bg-gray-200"
+        >
+          Manage Products
+        </button>
       </div>
     </div>
   );
-}
+};
+
+export default AdminDashboard;

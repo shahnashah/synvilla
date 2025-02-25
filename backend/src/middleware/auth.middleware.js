@@ -75,11 +75,25 @@ export const TokenGuard = async (req, res, next) => {
 };
 
 // Admin Authentication Middleware
-export const AdminGuard = (req, res, next) => {
-    if (!req.user || req.user.role !== "admin") {
-        return res.status(403).json({ error: "Access Forbidden: Admins Only" });
+
+
+export const adminAuth = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized: No token" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.role !== "admin") {
+      return res.status(403).json({ message: "Access denied: Not an admin" });
     }
+    req.user = decoded;
     next();
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
 };
 
 

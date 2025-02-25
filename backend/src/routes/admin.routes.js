@@ -1,24 +1,14 @@
-// import express from "express";
-// import { TokenGuard } from "../middleware/auth.middleware.js";
-// import { adminDashboard } from "../controllers/admin.controller.js";
 
-// const router = express.Router();
-
-// router.get("/admin", TokenGuard,adminDashboard (req, res) => {
-//     res.json({ message: "Welcome Admin" });
-// });
-
-// export default router;
 
 import express from "express";
-import { TokenGuard } from "../middleware/auth.middleware.js";
-import { adminDashboard } from "../controllers/admin.controller.js";
-
+import { adminLogin } from "../controllers/adminController.js";
+import { adminAuth } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-//  Corrected Route
-router.get("/admin", TokenGuard, adminDashboard);
+router.post("/login", adminLogin);
+router.get("/dashboard", adminAuth, (req, res) => {
+  res.json({ message: "Welcome to Admin Dashboard" });
+});
 
 export default router;
-
