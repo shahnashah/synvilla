@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary"; // सही import
+import { v2 as cloudinary } from "cloudinary"; 
 
-dotenv.config(); // .env variables load करने के लिए
+dotenv.config();
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, // .env में यह value होनी चाहिए
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
