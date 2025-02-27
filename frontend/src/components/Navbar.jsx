@@ -284,7 +284,7 @@ const Navbar = () => {
                 {item.name}
               </Link>
               {item.subMenu.length > 0 && isOpen === index && (
-                <div className="absolute top-10 left-0 bg-white shadow-md p-4 grid grid-cols-2 gap-4 w-80">
+                <div className="absolute top-6 left-0 bg-white shadow-md p-5 grid grid-cols-2 gap-4 w-80">
                   {item.subMenu.map((sub, subIndex) => (
                     <div key={subIndex}>
                       <h3 className="font-bold text-[#A0522D] mb-2">{sub.heading}</h3>

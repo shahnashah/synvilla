@@ -42,4 +42,4 @@ const ProductsList = () => {
     );
 };
 
-export default ProductList;
+export default ProductsList;

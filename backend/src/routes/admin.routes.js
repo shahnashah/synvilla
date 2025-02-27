@@ -1,14 +1,41 @@
-
-
 import express from "express";
-import { adminLogin } from "../controllers/adminController.js";
-import { adminAuth } from "../middleware/authMiddleware.js";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
+import {
+  adminSignup,
+  adminLogin,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} from "../controllers/admin.controller.js";
+import adminMiddleware from "../middleware/admin.middleware.js";
+import { TokenGuard } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/login", adminLogin);
-router.get("/dashboard", adminAuth, (req, res) => {
-  res.json({ message: "Welcome to Admin Dashboard" });
+// 🔹 Resolve __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 🔹 Multer Setup for Image Uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../uploads/"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
+const upload = multer({ storage });
+
+// ✅ Admin Routes
+router.post("/signup", adminSignup);
+router.post("/login", adminLogin);
+
+// ✅ Product Routes
+router.post("/productAdd", TokenGuard, adminMiddleware, upload.single("image"), addProduct);
+router.put("/productManage/:id", TokenGuard, adminMiddleware, updateProduct);
+router.delete("/productDelete/:id", TokenGuard, adminMiddleware, deleteProduct);
 
 export default router;
