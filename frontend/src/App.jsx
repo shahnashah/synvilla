@@ -11,7 +11,9 @@ import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/adminDashboard";
 import AddProduct from "./pages/AddProduct";
 import ManageProduct from "./pages/ManageProduct"; // ✅ Corrected import
-import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./pages/AdminLogin"; // Adjust path if necessary
+
+
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/manage-products" element={<ManageProduct />} /> 
+        
       </Routes>
     </BrowserRouter>
   );
