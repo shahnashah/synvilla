@@ -8,6 +8,7 @@ import {
   addProduct,
   updateProduct,
   deleteProduct,
+  fetchProducts,
 } from "../controllers/admin.controller.js";
 import adminMiddleware from "../middleware/admin.middleware.js";
 import { TokenGuard } from "../middleware/auth.middleware.js";
@@ -34,8 +35,21 @@ router.post("/signup", adminSignup);
 router.post("/login", adminLogin);
 
 // ✅ Product Routes
-router.post("/productAdd", TokenGuard, adminMiddleware, upload.single("image"), addProduct);
-router.put("/productManage/:id", TokenGuard, adminMiddleware, updateProduct);
+router.post(
+  "/productAdd",
+  TokenGuard,
+  adminMiddleware,
+  upload.single("image"),
+  addProduct
+);
+router.put(
+  "/productManage/:id",
+  TokenGuard,
+  adminMiddleware,
+  upload.single("image"),
+  updateProduct
+);
 router.delete("/productDelete/:id", TokenGuard, adminMiddleware, deleteProduct);
+router.get("/products", TokenGuard, adminMiddleware, fetchProducts);
 
 export default router;

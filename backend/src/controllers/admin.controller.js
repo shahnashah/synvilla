@@ -1,6 +1,6 @@
-// admin.controller.js
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import path from "path";
 import Product from "../models/product.model.js";
 import Admin from "../models/Admin.model.js";
 
@@ -51,7 +51,7 @@ export const adminLogin = async (req, res, next) => {
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
     });
     res.status(200).json({ message: "Login Successful!", token });
@@ -70,7 +70,7 @@ export const addProduct = async (req, res, next) => {
       throw error;
     }
 
-    const image = req.file ? req.file.path : null;
+    const image = req.file ? `/uploads/${req.file.filename}` : null; // ✅ Ensure correct path
     const product = new Product({
       name,
       description,
@@ -91,7 +91,14 @@ export const addProduct = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+    const updateData = req.body;
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`; // ✅ Update image if provided
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     if (!updatedProduct) {
       const error = new Error("Product Not Found!");
@@ -120,5 +127,23 @@ export const deleteProduct = async (req, res, next) => {
     res.json({ message: "Product Deleted Successfully!" });
   } catch (error) {
     next(error);
+  }
+};
+
+// ✅ Fetch All Products
+export const fetchProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    // ✅ Ensure correct image URL before sending response
+    const updatedProducts = products.map((product) => ({
+      ...product._doc,
+      image: product.image
+        ? `http://localhost:${process.env.PORT||5000}${product.image}`
+        : null, // ✅ Fixed Image URL
+    }));
+
+    res.status(200).json(updatedProducts);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products", error });
   }
 };

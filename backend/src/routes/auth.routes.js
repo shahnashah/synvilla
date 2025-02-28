@@ -5,7 +5,6 @@ import { signup ,
     logout,
 } from "../controllers/auth.controller.js"
 
-import { TokenGuard } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 

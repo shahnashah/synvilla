@@ -5,10 +5,9 @@ import admins from "../models/Admin.model.js";
 export const TokenGuard = async (req, res, next) => {
     try {
         console.log("Cookies:", req.cookies);
-        console.log("Authorization Header:", req.headers.authorization);
-        console.log(req.headers.authorization?.split(" ")[1]);
         
-        const token = req.headers.authorization?.split(" ")[1]; //req.cookies.jwt || req.headers.authorization?.split(" ")[1];
+        
+        const token = req.cookies.jwt;
 
         console.log(token);
         
