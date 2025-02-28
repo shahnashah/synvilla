@@ -20,7 +20,7 @@ export const getProductsByCategory = async (req, res) => {
         ? `http://localhost:${process.env.PORT || 5000}${product.image}` 
         : null, // ✅ Fixed Image URL
     }));
-
+    
     res.json(updatedProducts);
   } catch (error) {
     handleError(res, error);
@@ -37,7 +37,7 @@ export const getNewProducts = async (req, res) => {
         ? `http://localhost:${process.env.PORT || 5000}${product.image}` 
         : null, // ✅ Fixed Image URL
     }));
-
+    
     res.json(updatedProducts);
   } catch (error) {
     handleError(res, error);

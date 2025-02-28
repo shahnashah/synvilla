@@ -2,7 +2,7 @@ import { FaFacebookF, FaInstagram, FaPinterest, FaYoutube, FaPhone, FaEnvelope, 
 
 export default function Footer() {
   return (
-    <footer className="bg-[#7a6a5e] text-white py-10 px-6 md:px-16 h-90">
+    <footer className="bg-[#7a6a5e] text-white py-10 px-6 md:px-16 h-90 mt-5">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         
         {/* Support Section */}
