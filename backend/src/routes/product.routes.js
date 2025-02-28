@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get("/list", getProductsByCategory);
 router.get("/new", getNewProducts);
-router.get("/:id", getProductById);
+router.get("/", getProductById);
 
 export default router;

@@ -46,19 +46,18 @@ export const getNewProducts = async (req, res) => {
 
 // Get product by ID
 export const getProductById = async (req, res) => {
+  
   try {
-    const product = await Product.findById(req.params.id).lean();
+    const product = await Product.findById(req.query.id).lean();
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    const updatedProducts = products.map((product) => ({
-      ...product,
-      image: product.image 
-        ? `http://localhost:${process.env.PORT || 5000}${product.image}` 
-        : null, // ✅ Fixed Image URL
-    }));
+     // ✅ Modify the product object directly
+     product.image = product.image 
+     ? `http://localhost:${process.env.PORT || 5000}${product.image}` 
+     : null;
 
-    res.json(updatedProducts);
+   res.json(product);
   } catch (error) {
     handleError(res, error, "Invalid product ID");
   }

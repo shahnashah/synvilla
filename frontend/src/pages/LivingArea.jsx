@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
+import { NavLink } from "react-router-dom";
 
 const LivingArea = () => {
   const [products, setProducts] = useState([]);
@@ -46,9 +47,11 @@ const LivingArea = () => {
             <h3 className="text-lg font-medium">{product.name}</h3>
             <p className="text-gray-600">{product.category}</p>
             <p className="text-green-600 font-semibold">₹{product.price}</p>
-            <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-              View Details
-            </button>
+            <NavLink to={`/products/${product._id}`}>
+              <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                View Details
+              </button>
+            </NavLink>
           </div>
         ))}
       </div>
