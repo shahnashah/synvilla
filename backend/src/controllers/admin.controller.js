@@ -4,7 +4,7 @@ import path from "path";
 import Product from "../models/product.model.js";
 import Admin from "../models/Admin.model.js";
 
-// ✅ Admin Signup
+//  Admin Signup
 export const adminSignup = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
@@ -31,7 +31,7 @@ export const adminSignup = async (req, res, next) => {
   }
 };
 
-// ✅ Admin Login
+// Admin Login
 export const adminLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -60,7 +60,7 @@ export const adminLogin = async (req, res, next) => {
   }
 };
 
-// ✅ Add Product
+// Add Product
 export const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, category, isNewArrival } = req.body;
@@ -87,7 +87,7 @@ export const addProduct = async (req, res, next) => {
   }
 };
 
-// ✅ Update Product
+// Update Product
 export const updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -112,7 +112,7 @@ export const updateProduct = async (req, res, next) => {
   }
 };
 
-// ✅ Delete Product
+//  Delete Product
 export const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -130,7 +130,7 @@ export const deleteProduct = async (req, res, next) => {
   }
 };
 
-// ✅ Fetch All Products
+//  Fetch All Products
 export const fetchProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -139,7 +139,7 @@ export const fetchProducts = async (req, res) => {
       ...product._doc,
       image: product.image
         ? `http://localhost:${process.env.PORT||5000}${product.image}`
-        : null, // ✅ Fixed Image URL
+        : null, //  Fixed Image URL
     }));
 
     res.status(200).json(updatedProducts);

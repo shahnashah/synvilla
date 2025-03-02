@@ -37,7 +37,7 @@ const ProductCard = ({ products }) => {
           <p className="text-gray-600">{getCategoryName(product.category)}</p>
           <p className="text-green-600 font-semibold">₹{product.price}</p>
           <NavLink to={`/products/${product._id}`}>
-            <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+            <button className="mt-2 w-full bg-[#87421f] text-white py-2 rounded-lg hover:bg-[#978d89]">
               View Details
             </button>
           </NavLink>

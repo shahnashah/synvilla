@@ -16,6 +16,7 @@ import LivingArea from "./pages/LivingArea";
 import GardenArea from "./pages/GardenArea";
 import Bedroom from "./pages/Bedroom";
 import ProductDetail from "./pages/ProductDetail";
+ 
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path="/garden-area" element={<GardenArea />} />
         <Route path="/bedroom" element={<Bedroom />} />
         <Route path="/products/:id" element={<ProductDetail />} />
+        
       </Routes>
     </BrowserRouter>
   );

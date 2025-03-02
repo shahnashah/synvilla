@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ProductCard from "../components/ProductCard";
+import Footer from "../components/Footer";
 
 const LivingArea = () => {
   const [products, setProducts] = useState([]);
@@ -37,6 +38,7 @@ const LivingArea = () => {
       {error && <p className="text-center text-red-500">{error}</p>}
 
       <ProductCard products={products}/>
+      <Footer />
     </div>
   );
 };
