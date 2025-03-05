@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import admins from "../models/Admin.model.js"; 
+import admins from "../models/admin.model.js"; 
 
 
 export const TokenGuard = async (req, res, next) => {

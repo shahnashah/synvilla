@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import path from "path";
 import Product from "../models/product.model.js";
-import Admin from "../models/Admin.model.js";
+import Admin from "../models/admin.model.js";
 
 //  Admin Signup
 export const adminSignup = async (req, res, next) => {
