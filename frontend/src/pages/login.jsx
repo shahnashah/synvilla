@@ -30,7 +30,7 @@ const LoginPage = () => {
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border border-[#d2a679]"
       >
         <h2 className="text-2xl font-semibold text-center text-[#5c4033] mb-6">
-          Welcome Back to <span className="text-[#d2a679]">SynVilla</span>
+          Welcome Back to <span className="text-[#caa279]">SynVilla</span>
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
