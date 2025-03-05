@@ -13,7 +13,7 @@ import adminRoutes from "./src/routes/admin.routes.js";
 const app = express();
 
 // Middleware
-app.use(cors({ origin: `http://localhost:${process.env.FRONTEND_PORT}`, credentials: true }));
+app.use(cors({ origin: `${process.env.FRONTEND_url}`, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

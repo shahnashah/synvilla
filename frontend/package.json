@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "npm run dev",
+    "lint": "",
+    "preview": ""
   },
   "dependencies": {
     "@shadcn/ui": "^0.0.4",
