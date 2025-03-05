@@ -5,7 +5,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:${import.meta.env.BACKEND_PORT}/cart`)
+    axios.get(`${import.meta.env.BACKEND_PORT}/cart`)
       .then(response => setCartItems(response.data))
       .catch(error => console.error("Error fetching cart:", error));
   }, []);
