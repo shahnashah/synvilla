@@ -13,7 +13,7 @@ import adminRoutes from "./src/routes/admin.routes.js";
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost:5179", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -24,6 +24,7 @@ const __dirname = path.dirname(__filename);
 
 // ✅ Correct Static File Serving for Image Uploads
 app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
+
 
 // Routes
 app.use("/api/admin", adminRoutes);

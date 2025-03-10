@@ -16,6 +16,22 @@ const userSchema = new mongoose.Schema(
       require: true,
       minlength: 10,
     },
+    profilePic:{
+      type:String,
+      default:""
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
+    age: {
+      type: String,
+      required: true,
+    },
+    orders: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

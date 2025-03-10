@@ -1,175 +1,193 @@
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
-import banner01 from "../assets/banner2.webp"//
 
-import banner1 from "../assets/fslider5.jpg";//4thdiv
-import banner2 from "../assets/fslider6.jpg";
-import banner3 from "../assets/fslider7.jpg";
-import banner4 from "../assets/fslider8.webp";
-
-//1div
-import Image1 from "../assets/fslider1.jpg";
-import Image2 from "../assets/fslider2.jpg";
-import Image3 from "../assets/fslider3.jpg";
-import Image4 from "../assets/fslider4.jpg";
- import Image5 from "../assets/fslider5.jpg";
-
- //divlast
- import Image6 from "../assets/fslider8.webp"
- import Image7 from "../assets/fslider9.jpg"
- import Images8 from "../assets/fslider10.jpg"
- import Images9 from "../assets/fslider11.jpg"
- import Images10 from "../assets/fslider12.jpg"
-
-// import Image3 from "../assets/p.jpg";
-// import Image4 from "../assets/p.jpg";
-import offerOne from "../assets/p.jpg";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import bgImage from "../assets/home-bg.jpg";
+import sofa from "../assets/coffeetable.jpg";
+import chair from "../assets/blur.jpg";
+import table from "../assets/woodentable.jpg";
+import homeVisitImg from "../assets/homevisit.webp";
+import touchFeelImg from "../assets/feel.webp";
+import consultationImg from "../assets/free.webp";
+import bannerImage from "../assets/bannerone.webp";
 import Footer from "../components/Footer";
 
-const Home = () => {
-  const threeCards = [
-    { title: "Card 1", description: "This is the first card's description.", image: Image1 },
-    { title: "Card 2", description: "This is the second card's description.", image: Image2 },
-    { title: "Card 3", description: "This is the third card's description.", image: Image3 },
-    { title: "Card 4", description: "This is the fourth card's description.", image: Image4 },
-  ];
+const HeroSection = () => {
+  const bgRef = useRef(null);
+  const textRef = useRef(null);
+  const navigate = useNavigate();
+  const [cart, setCart] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const fiveCards = [...threeCards, { title: "Card 6", description: "This is the fifth card's description.", image: Image6 }];
- 
-  const slides = [
-    { id: 1, image: Image1, label: "STOP", discount: "UP TO 50% OFF" },
-    { id: 2, image: Image2, label: "JOY", discount: "UP TO 40% OFF" },
-    { id: 3, image: Image3, label: "BEAUTY", discount: "UP TO 30% OFF" },
-    { id: 4, image: Image4, label: "FRESH", discount: "UP TO 20% OFF" },
-    { id: 5, image: Image5, label: "STOP", discount: "UP TO 50% OFF" },
-    { id: 6, image: Image6, label: "STOP", discount: "UP TO 50% OFF" },
-    { id: 7, image: Image7, label: "STOP", discount: "UP TO 50% OFF" },
-    
-  ];
+  useEffect(() => {
+    gsap.fromTo(
+      bgRef.current,
+      { scale: 1.1, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 2, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      textRef.current,
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 1 }
+    );
+  }, []);
+
+  const addToCart = (name, description) => {
+    setCart([...cart, { name, description }]);
+    setSelectedProduct({ name, description });
+  };
 
   return (
+    <div className="relative w-full flex flex-col items-center overflow-hidden bg-gray-100">
 
-    <>
+      {/* Hero Section */}
+      <div className="relative h-[80vh] w-full flex flex-col justify-center items-center overflow-hidden">
+  {/* Background Image with Opacity */}
+  <div
+    ref={bgRef}
+    className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-fixed"
+    style={{ backgroundImage: `url(${bgImage})` }}
+  >
+    {/* Opacity Overlay */}
+    <div className="absolute inset-0 bg-black/50"></div>
+  </div>
 
-<div className="bg-white text-white py-0 ">
-        <h2 className="text-center text-3xl font-bold mb-6 ">Our Homegrown Brands</h2>
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={-40}
-          slidesPerView={3}
-          centeredSlides
-          loop
-          navigation
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          className="max-w-7xl mx-auto"
-        >
-          {slides.map((slide) => (
-            <SwiperSlide key={slide.id} className="transition-transform duration-500">
-              {({ isActive }) => (
-                <div className={`relative rounded-xl overflow-hidden transform transition-all duration-500 
-                  ${isActive ? "scale-110 shadow-lg z-20" : "-ml-10 scale-90 opacity-35 grayscale"}`}>
-                  <img src={slide.image} alt={slide.label} className="w-full h-110  object-cover" />
-                </div>
-              )}
-            </SwiperSlide>
+  {/* Text Content */}
+  <div ref={textRef} className="relative z-10 text-center max-w-2xl p-5">
+    <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg">
+      Elevate Your Living Space 🏡
+    </h1>
+    
+    <p className="text-lg md:text-xl mt-4 text-white drop-shadow-lg tracking-wide italic">
+      Discover the perfect blend of <span className="font-bold">comfort</span> and <span className="font-bold">elegance</span> with our exclusive furniture collection.
+    </p>
+
+    <button
+      onClick={() => navigate("/new-arrival")}
+      className="mt-6 px-6 py-3 text-lg font-semibold text-white bg-black hover:bg-yellow-500 transition-all duration-300 rounded-lg shadow-lg"
+    >
+      Explore Now
+    </button>
+  </div>
+</div>
+
+      {/* Product Showcase Section */}
+      <motion.div
+        className="w-full py-16 bg-gray-50"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-800">
+          Our Products Are <span className="text-gray-500">Custom Made</span>
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 justify-center">
+          {[
+            { img: sofa, name: "Blue Vase", desc: "A handcrafted blue vase to add charm to your space." },
+            { img: chair, name: "Elegant Chair", desc: "Elegant wooden chair with premium finish." },
+            { img: table, name: "Wooden Chair", desc: "Sleek and stylish wooden chair for modern interiors." }
+          ].map((product, index) => (
+            <motion.div
+              key={index}
+              className="relative w-80 h-96 bg-gray-100 rounded-xl overflow-hidden shadow-lg mx-auto flex flex-col justify-end"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <motion.img
+                src={product.img}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+              <button
+                className="absolute top-4 left-1/2 transform -translate-x-1/2 text-gray-800 text-lg font-semibold transition-all duration-300 group"
+                onClick={() => addToCart(product.name, product.desc)}
+              >
+                Add to Cart
+              </button>
+            </motion.div>
           ))}
-        </Swiper>
-      </div>
+        </div>
+      </motion.div>
 
-    <img className=' h-180 mt-5 ml-15 w-350 ' src={banner01} alt="" />
+      {/* Categories Section */}
+      <motion.div
+        className="w-full py-16 bg-white"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-800">
+          Explore Our <span className="text-gray-500">Categories</span>
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 justify-center">
+          {[
+            { name: "Living Area", desc: "Transform your living space with stylish & comfortable furniture." },
+            { name: "Garden Area", desc: "Bring elegance to your outdoor spaces with our premium garden collection." },
+            { name: "Bedroom", desc: "Upgrade your bedroom with cozy, modern, and elegant designs." },
+            { name: "New Arrivals", desc: "Check out the latest trends in furniture and home décor." }
+          ].map((category, index) => (
+            <motion.div
+              key={index}
+              className="p-6 bg-gray-100 rounded-xl shadow-md text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.1 }}
+            >
+              <h3 className="text-xl font-semibold text-gray-800">{category.name}</h3>
+              <p className="text-gray-600 mt-2 text-sm">{category.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
 
-    <div>
-      {/* Banner Slider */}
-   
+      <div className="w-full py-16 bg-white">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-800">
+           Why <span className="text-gray-500">Visit Us?</span>
+         </h2>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 justify-center">
+           {[{ img: homeVisitImg, title: "Home Visits", desc: "Experience our furniture in your own home before buying." },
+            { img: touchFeelImg, title: "Touch & Feel", desc: "Feel the quality and comfort of our materials." },
+            { img: consultationImg, title: "Free Consultation", desc: "Get expert advice for the perfect fit for your space." }]
+            .map((reason, index) => (
+              <div key={index} className="p-6 bg-gray-100 rounded-xl shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <img src={reason.img} alt={reason.title} className="w-100 h-80 object-contain rounded-lg" />
+                <h3 className="text-xl font-semibold text-gray-800 mt-4 text-center">
+  {reason.title}
+</h3>
+<p className="text-gray-600 mt-2 text-sm text-center">
+  {reason.desc}
+</p>
 
-      {/* Three Card Layout */}
-      <div className="flex mt-10 mb-10 ml-19 gap-30 p-0">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-90 max-w-5xl">
-          {threeCards.map((card, index) => (
-            <div key={index} className="bg-white w-72 rounded-2xl shadow-lg overflow-hidden p-0 hover:scale-103">
-              <img src={card.image} alt={card.title} className="w-full h-88 object-cover rounded-lg" />
-            </div>
+              </div>
           ))}
         </div>
       </div>
 
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3000 }}
-        className="w-320 h-[400px]"
-        >
-        {[banner1, banner2, banner3, banner4].map((banner, index) => (
-          <SwiperSlide key={index} >
-            <img src={banner} alt={`Banner ${index + 1}`} className="w-500 h-100 object-cover"ml-0 />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {/* Five Card Layout */}
-      <div className="flex mt-10 mb-10 ml-13 gap-30 p-0">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-73 max-w-4xl">
-          {fiveCards.map((card, index) => (
-            <div key={index} className="bg-white w-62 rounded shadow-lg overflow-hidden p-0 hover:scale-102">
-              <img src={card.image} alt={card.title} className="w-full h-88 object-cover rounded-lg" />
-            </div>
-          ))}
-        </div>
+      {/* Banner Image */}
+      <div className="w-full">
+        <motion.img
+          src={bannerImage}
+          alt=""
+          className="w-full"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
       </div>
-
-      {/* Offer Section */}
-      {/* <div>
-        <img className='w-400 ml-0 h-150' src={offerOne} alt="Offer" />
-      </div> */}
-
-      {/* Brand Slider */}
-      {/* <div className="bg-white text-white py-0 ">
-        <h2 className="text-center text-3xl font-bold mb-6 ">Our Homegrown Brands</h2>
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={-40}
-          slidesPerView={3}
-          centeredSlides
-          loop
-          navigation
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          className="max-w-7xl mx-auto"
-        >
-          {slides.map((slide) => (
-            <SwiperSlide key={slide.id} className="transition-transform duration-500">
-              {({ isActive }) => (
-                <div className={`relative rounded-xl overflow-hidden transform transition-all duration-500 
-                  ${isActive ? "scale-110 shadow-lg z-20" : "-ml-10 scale-90 opacity-40 grayscale"}`}>
-                  <img src={slide.image} alt={slide.label} className="w-full h-110 object-cover" />
-                </div>
-              )}
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div> */}
+<Footer/>
     </div>
-    <Footer />
-
-    </>
   );
 };
 
-
-export default Home;
-
+export default HeroSection;

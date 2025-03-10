@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import admins from "../models/Admin.model.js"; 
+import User from "../models/user.model.js";
 
 
 export const TokenGuard = async (req, res, next) => {
@@ -21,6 +22,8 @@ export const TokenGuard = async (req, res, next) => {
         if (!decoded) {
             return res.status(401).json({ error: "Access Denied: Token Expired or Invalid" });
         }
+       
+        
         console.log("Decoding Done");
         console.log(decoded)
         const user = await admins.findById(decoded.id).select("-password");
@@ -34,3 +37,38 @@ export const TokenGuard = async (req, res, next) => {
         return res.status(401).json({ error: "Invalid or Expired Token" });
     }
 };
+
+export const userLog = (req, res, next) => {
+    console.log(
+      `Test Request is executed for user 
+      ${req.url} with 
+      ${req.method} Method at 
+      ${new Date().toISOString()}`
+    );
+  
+    next();
+
+   
+
+}
+  
+export const confirmUser = async (req, res, next) => {
+    try {
+      const token = req.cookies.jwt;
+      if (!token) {
+        const er = new Error("Session Expired ! Please Login Again");
+        er.statusCode = 401;
+        next(er);
+        return;
+      }
+  
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+  
+      const verifiedUser = await User.findById(decode.id);
+  
+      req.verifiedUser = verifiedUser;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };

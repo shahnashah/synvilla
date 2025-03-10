@@ -29,7 +29,11 @@ const LivingArea = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Living Area</h2>
+      {/* <h2 className="text-2xl font-semibold mb-6 text-center">Living Area</h2> */}
+      <h6 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800 animate-fade-in">
+  🛋️ Living Area - Your Perfect Comfort Zone ✨
+</h6>
+
 
       {loading && (
         <p className="text-center text-gray-600">Loading Your Living Area...</p>
@@ -44,3 +48,6 @@ const LivingArea = () => {
 };
 
 export default LivingArea;
+
+
+

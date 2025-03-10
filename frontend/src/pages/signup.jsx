@@ -1,14 +1,32 @@
+
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    gender: "",
     email: "",
     password: "",
     confirmPassword: "",
+    age: "",
+    mobile: "",
     agreeToTerms: false,
   });
+
+  // Validation Functions
+  const validateEmail = (email) =>
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+
+  const validatePassword = (password) =>
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password);
+
+  const validateMobile = (mobile) => /^[0-9]{10}$/.test(mobile);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -20,15 +38,40 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+
+    if (!validateEmail(formData.email)) {
+      toast.error("Invalid email format");
       return;
     }
-    alert("Signup Successful!");
+
+    if (!validatePassword(formData.password)) {
+      toast.error(
+        "Password must be at least 6 characters, include 1 uppercase, 1 lowercase, and 1 number"
+      );
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (!validateMobile(formData.mobile)) {
+      toast.error("Invalid mobile number");
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      toast.error("You must agree to the Terms and Conditions");
+      return;
+    }
+
+    toast.success("Signup Successful!");
+    navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-100">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -40,57 +83,90 @@ const SignupPage = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Email */}
-          <div>
-            <label className="block text-[#5c4033] font-medium">Email</label>
+          <div className="grid grid-cols-2 gap-4">
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              name="firstName"
+              placeholder="First Name"
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-[#c4a484] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d2a679] bg-white"
+              className="border p-2 rounded w-full"
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              onChange={handleChange}
+              required
+              className="border p-2 rounded w-full"
             />
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-[#5c4033] font-medium">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-[#c4a484] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d2a679] bg-white"
-            />
-          </div>
+          <select
+            name="gender"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
 
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-[#5c4033] font-medium">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-[#c4a484] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d2a679] bg-white"
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
-          {/* Terms and Conditions */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
+
+          <input
+            type="number"
+            name="age"
+            placeholder="Age"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
+
+          <input
+            type="text"
+            name="mobile"
+            placeholder="Mobile Number"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
+
           <div className="flex items-center">
             <input
               type="checkbox"
               name="agreeToTerms"
-              checked={formData.agreeToTerms}
               onChange={handleChange}
-              className="w-4 h-4 accent-[#d2a679]"
+              className="mr-2"
             />
-            <label className="ml-2 text-[#5c4033]">
+            <label>
               I agree to the{" "}
               <Link to="/terms" className="text-[#d2a679] hover:underline">
                 Terms and Conditions
@@ -98,7 +174,6 @@ const SignupPage = () => {
             </label>
           </div>
 
-          {/* Signup Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -109,7 +184,6 @@ const SignupPage = () => {
           </motion.button>
         </form>
 
-        {/* Already have an account */}
         <p className="text-center text-[#5c4033] mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-[#d2a679] hover:underline">
@@ -117,6 +191,9 @@ const SignupPage = () => {
           </Link>
         </p>
       </motion.div>
+
+      {/* ✅ Add ToastContainer here */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
