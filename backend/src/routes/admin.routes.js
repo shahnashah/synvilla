@@ -9,9 +9,13 @@ import {
   updateProduct,
   deleteProduct,
   fetchProducts,
+  getAllUsers,
+  getAllContacts,
 } from "../controllers/admin.controller.js";
 import adminMiddleware from "../middleware/admin.middleware.js";
 import { TokenGuard } from "../middleware/auth.middleware.js";
+import { createContact } from "../controllers/admin.controller.js";
+
 
 const router = express.Router();
 
@@ -51,5 +55,7 @@ router.put(
 );
 router.delete("/productDelete/:id", TokenGuard, adminMiddleware, deleteProduct);
 router.get("/products", TokenGuard, adminMiddleware, fetchProducts);
-
+ router.route('/users').get(getAllUsers);
+ router.route("/contacts").get(getAllContacts).post(createContact); // Add POST method
+ 
 export default router;

@@ -3,6 +3,9 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import Product from "../models/product.model.js";
 import Admin from "../models/Admin.model.js";
+import User from "../models/user.model.js";
+import admiRoute from "../routes/admin.routes.js"
+import Contact from "../models/Contact.model.js"
 
 //  Admin Signup
 export const adminSignup = async (req, res, next) => {
@@ -145,5 +148,56 @@ export const fetchProducts = async (req, res) => {
     res.status(200).json(updatedProducts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching products", error });
+  }
+
+};
+
+//admin users ka data fetch kr raha hai 
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}, { password: 0 });
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No Users Found" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// 🔹 Controller to get all contacts
+export const getAllContacts = async (req, res, next) => {
+  try {
+    const contacts = await Contact.find();
+    
+    if (!contacts || contacts.length === 0) {
+      return res.status(404).json({ message: "No Contacts Found" });
+    }
+    
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+// 🔹 Controller to create a new contact
+export const createContact = async (req, res, next) => {
+  try {
+    const { email, fullName, message } = req.body;
+
+    if (!email || !fullName || !message) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const newContact = new Contact({ email, fullName, message });
+    await newContact.save();
+
+    res.status(201).json({ message: "Contact form submitted successfully" });
+  } catch (error) {
+    console.error("Error creating contact:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

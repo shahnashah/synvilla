@@ -9,6 +9,8 @@ import connectDB from "./src/lib/db.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import productRoutes from "./src/routes/product.routes.js";
 import adminRoutes from "./src/routes/admin.routes.js";
+import contactRoutes from "../backend/src/routes/contact.routes.js";
+import userRoutes from "../backend/src/routes/admin.routes.js"
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api", userRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

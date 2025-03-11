@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/Login";
+
 import Signup from "./pages/Signup";
 import TermsAndConditions from "./pages/Terms";
 import Cart from "./pages/Cart";
@@ -7,7 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/Home";
 import Header from "./components/header";
 import Navbar from "./components/Navbar";
-import AdminDashboard from "./pages/AdminDashboard";
+
 import AddProduct from "./pages/AddProduct";
 import ManageProduct from "./pages/ManageProduct";
 import AdminLogin from "./pages/AdminLogin";
@@ -16,6 +16,10 @@ import LivingArea from "./pages/LivingArea";
 import GardenArea from "./pages/GardenArea";
 import Bedroom from "./pages/Bedroom";
 import ProductDetail from "./pages/ProductDetail";
+import AdminContacts from "./pages/AdminContact";
+import LoginPage from "./pages/login";
+import AdminDashboard from "./pages/adminDashboard";
+import Contact from "../src/pages/ContactUs";
  
 
 
@@ -43,6 +47,9 @@ function App() {
         <Route path="/garden-area" element={<GardenArea />} />
         <Route path="/bedroom" element={<Bedroom />} />
         <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
+        <Route path="/admin/contacts" element={<AdminContacts/>}/>
+        <Route path="/contactus" element={<Contact/>}/>
         
       </Routes>
     </BrowserRouter>
