@@ -1,28 +1,31 @@
 
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Chart from "react-apexcharts";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiUsers, FiShoppingCart, FiBox, FiMail, FiPlusCircle } from "react-icons/fi";
+import {
+  FiUsers,
+  FiBox,
+  FiPlusCircle,
+  FiMail,
+  FiSearch,
+  FiShoppingCart,
+} from "react-icons/fi";
+import Chart from "react-apexcharts";
+import ManageProducts from "./ManageProduct";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [salesData, setSalesData] = useState({ series: [], options: {} });
 
   useEffect(() => {
     fetchUsers();
-    fetchProducts();
     fetchContacts();
-    fetchSalesData();
+    fetchProducts();
   }, []);
 
   const fetchUsers = async () => {
@@ -31,17 +34,6 @@ const AdminDashboard = () => {
       setUsers(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error("Error fetching users:", error);
-      setUsers([]);
-    }
-  };
-
-  const fetchProducts = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/api/admin/products");
-      setProducts(Array.isArray(res.data) ? res.data : []);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setProducts([]);
     }
   };
 
@@ -51,68 +43,67 @@ const AdminDashboard = () => {
       setContacts(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error("Error fetching contacts:", error);
-      setContacts([]);
     }
   };
 
-  const fetchSalesData = () => {
-    setSalesData({
-      series: [{ name: "Sales", data: [10, 40, 30, 50, 70, 80, 100] }],
-      options: {
-        chart: { type: "line" },
-        xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"] },
-      },
-    });
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get("http://localhost:5002/api/admin/products", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setProducts(Array.isArray(res.data) ? res.data : []);
+    } catch (error) {
+      console.error("Error fetching products:", error.response?.data || error.message);
+    }
   };
+
+  const filteredUsers = users.filter(
+    (user) =>
+      (user.name && user.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  const salesData = {
+    options: {
+      chart: { id: "sales-chart" },
+      xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"] },
+    },
+    series: [{ name: "Sales", data: [30, 40, 45, 50, 49, 60] }],
+  };
+
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      
-      {/* ✅ Sidebar */}
-      <motion.aside
-        className="w-64 bg-white shadow-lg p-5 flex flex-col items-center rounded-r-2xl"
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      {/* Sidebar */}
+      <motion.aside className="w-64 bg-white shadow-lg p-5 flex flex-col items-center rounded-r-2xl">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
-        
         <div className="space-y-4 w-full">
           {[
             { name: "Dashboard", icon: <FiBox />, tab: "dashboard" },
             { name: "Add Product", icon: <FiPlusCircle />, tab: "add-product" },
-            { name: "Manage Products", icon: <FiShoppingCart />, tab: "products" },
+            { name: "Manage Products", icon: <FiBox />, tab: "products" },
             { name: "View Users", icon: <FiUsers />, tab: "users" },
             { name: "Contact Messages", icon: <FiMail />, tab: "contacts" },
           ].map(({ name, icon, tab }) => (
-            <motion.button
+            <button
               key={tab}
-              className={`w-full flex items-center space-x-3 py-3 px-5 rounded-lg text-lg transition-all duration-300 ${
+              className={`w-full flex items-center space-x-3 py-3 px-5 rounded-lg text-lg ${
                 activeTab === tab ? "bg-[#A0522D] text-white" : "bg-gray-200 hover:bg-gray-300"
               }`}
               onClick={() => setActiveTab(tab)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               {icon} <span>{name}</span>
-            </motion.button>
+            </button>
           ))}
         </div>
       </motion.aside>
 
-      {/* ✅ Main Content */}
+      {/* Main Content */}
       <div className="flex-1 p-8">
         <AnimatePresence mode="wait">
           {activeTab === "dashboard" && (
-            <motion.div
-              key="dashboard"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-            >
+            <motion.div key="dashboard">
               <h1 className="text-3xl font-bold mb-4">Dashboard Overview</h1>
-
-              {/* ✅ Stats Cards */}
               <div className="grid grid-cols-3 gap-6 mb-6">
                 <div className="p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
                   <FiUsers size={40} className="text-blue-500" />
@@ -130,40 +121,70 @@ const AdminDashboard = () => {
                   <p className="text-gray-500">Total Contact Messages</p>
                 </div>
               </div>
-
-              {/* ✅ Sales Chart */}
               <div className="p-6 bg-white shadow-lg rounded-lg">
                 <Chart options={salesData.options} series={salesData.series} type="line" height={300} />
               </div>
             </motion.div>
           )}
 
-          {activeTab === "add-product" && (
-            <motion.div key="add-product" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
-              <h1 className="text-3xl font-bold mb-4">Add a New Product</h1>
-              <button onClick={() => navigate("/add-product")} className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-800 transition-all">
-                ➕ Go to Add Product Page
-              </button>
+          {activeTab === "users" && (
+            <motion.div key="users">
+              <h1 className="text-3xl font-bold mb-4">User List</h1>
+              <div className="mb-4 flex items-center">
+                <input
+                  type="text"
+                  placeholder="Search by name or email"
+                  className="p-2 border rounded-lg w-64"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <FiSearch className="ml-2 text-gray-500" size={24} />
+              </div>
+              <table className="w-full bg-white shadow-lg rounded-lg p-4">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="p-3 text-left">Email</th>
+                    <th className="p-3 text-left">Joined On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUsers.map((user) => (
+                    <tr key={user._id} className="border-b">
+                      <td className="p-3">{user.email}</td>
+                      <td className="p-3">{new Date(user.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </motion.div>
           )}
 
-          {activeTab === "products" && (
-            <motion.div key="products" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
-              <h1 className="text-3xl font-bold mb-4">Manage Products</h1>
-              <button onClick={() => navigate("/manage-products")} className="px-6 py-3 bg-[#A0522D] text-white rounded-lg hover:bg-[#8B4513] transition-all">
-                Go to Product Management
-              </button>
-            </motion.div>
-          )}
+ {activeTab === "contacts" && (
+             <motion.div key="contacts">
+               <h1 className="text-3xl font-bold mb-4">Contact Messages</h1>
+               <table className="w-full bg-white shadow-lg rounded-lg p-4">
+                 <thead>
+                   <tr className="bg-gray-200">
+                    
+                     <th className="p-3 text-left">Email</th>
+                     <th className="p-3 text-left">Message</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   {contacts.map((contact) => (
+                     <tr key={contact._id} className="border-b">
+                      
+                       <td className="p-3">{contact.email}</td>
+                       <td className="p-3">{contact.message}</td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
+             </motion.div>
+           )}
+          {activeTab === "add-product" && navigate("/add-product")}
 
-          {activeTab === "contacts" && (
-            <motion.div key="contacts" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
-              <h1 className="text-3xl font-bold mb-4">Contact Messages</h1>
-              <button onClick={() => navigate("/admin/contacts")} className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-all">
-                View Contact Messages
-              </button>
-            </motion.div>
-          )}
+          {activeTab === "products" && <ManageProducts />}
         </AnimatePresence>
       </div>
     </div>
@@ -171,5 +192,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/icons-material": "^6.4.7",
+    "@mui/material": "^6.4.7",
     "@shadcn/ui": "^0.0.4",
     "@tailwindcss/vite": "^4.0.8",
     "apexcharts": "^4.5.0",
