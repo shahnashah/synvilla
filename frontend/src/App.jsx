@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Signup from "./pages/Signup";
 import TermsAndConditions from "./pages/Terms";
-import Cart from "./pages/Cart";
+import Cart from "./pages/cart.jsx";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/Home";
 import Header from "./components/header";
@@ -20,6 +20,8 @@ import AdminContacts from "./pages/AdminContact";
 import LoginPage from "./pages/login";
 import AdminDashboard from "./pages/adminDashboard";
 import Contact from "../src/pages/ContactUs";
+
+
  
 
 
@@ -50,6 +52,9 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
         <Route path="/admin/contacts" element={<AdminContacts/>}/>
         <Route path="/contactus" element={<Contact/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+
+
         
       </Routes>
     </BrowserRouter>

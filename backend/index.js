@@ -11,11 +11,12 @@ import productRoutes from "./src/routes/product.routes.js";
 import adminRoutes from "./src/routes/admin.routes.js";
 import contactRoutes from "../backend/src/routes/contact.routes.js";
 import userRoutes from "../backend/src/routes/admin.routes.js"
+import cartroutes from "../backend/src/routes/cart.routes.js";
 
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost:5174", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api", userRoutes);
+app.use("/api/cart", cartroutes);
 
 // Health check route
 app.get("/", (req, res) => {

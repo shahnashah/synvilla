@@ -88,7 +88,7 @@ const Navbar = () => {
             )}
           </div>
 
-          <button onClick={() => navigate("/cart")} className="text-gray-600 hover:text-[#A0522D]">
+          <button onClick={() => setCartOpen(true)}>🛒
             <FaShoppingCart size={24} />
           </button>
         </div>

@@ -1,3 +1,7 @@
+
+
+
+
 import mongoose from "mongoose";
 
 const cartSchema = mongoose.Schema(
@@ -9,9 +13,9 @@ const cartSchema = mongoose.Schema(
     },
     items: [
       {
-        itemName: String,
-        quantity: Number,
-        rate: Number,
+        itemName: { type: String, required: true },
+        quantity: { type: Number, required: true, min: 1 },
+        rate: { type: Number, required: true, min: 0 },
       },
     ],
     totalAmount: {
