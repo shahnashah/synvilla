@@ -86,7 +86,7 @@ import NewArrival from "./pages/NewArrival";
 import LivingArea from "./pages/LivingArea";
 import GardenArea from "./pages/GardenArea";
 import Bedroom from "./pages/Bedroom";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/productDetail";
 import AdminContacts from "./pages/AdminContact";
 import LoginPage from "./pages/login";
 import Contact from "./pages/ContactUs";
@@ -153,7 +153,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetail addToCart={addToCart} />} />
 
         {/* Cart Page with Props */}
-        <Route 
+        {/* <Route 
           path="/cart" 
           element={
             <Cart 
@@ -162,8 +162,9 @@ function App() {
               clearCart={clearCart} 
             />
           } 
-        />
+        /> */}
 
+<Route path="/cart/*" element={<Cart/>}/>
         {/* Contact Page */}
         <Route path="/contactus" element={<Contact />} />
       </Routes>
