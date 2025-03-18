@@ -1,40 +1,50 @@
-import { createContext, useReducer } from "react";
-import CartReducer from "../Reducer/Cart.Reducer";
+import { createContext, useState, useEffect } from "react";
 
-// Initial state
-const initialState = {
-  cartItems: [],
-};
+// Create Context
+export const CartContext = createContext();
 
-// Create context
-export const CartContext = createContext(initialState);
-
-// Provider component
+// CartProvider Component
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(CartReducer, initialState);
+  // ✅ Load Cart from localStorage on Page Load
+  const loadCartFromStorage = () => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  };
 
-  // ✅ Add product to cart
+  const [cartItems, setCartItems] = useState(loadCartFromStorage);
+
+  // ✅ Save Cart to localStorage when cartItems change
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // ✅ Add Product to Cart
   const addToCart = (product) => {
-    dispatch({ type: "ADD_TO_CART", payload: product });
+    setCartItems((prevCart) => {
+      const existingItem = prevCart.find((item) => item._id === product._id);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
   };
 
-  // ✅ Remove product from cart
+  // ✅ Remove Product from Cart
   const removeFromCart = (id) => {
-    dispatch({ type: "REMOVE_FROM_CART", payload: id });
+    setCartItems((prevCart) => prevCart.filter((item) => item._id !== id));
   };
 
-  // ✅ Clear entire cart
+  // ✅ Clear Entire Cart
   const clearCart = () => {
-    dispatch({ type: "CLEAR_CART" });
+    setCartItems([]);
+    localStorage.removeItem("cart"); // Clear localStorage
   };
 
   return (
-    <CartContext.Provider value={{ 
-      cartItems: state.cartItems, 
-      addToCart, 
-      removeFromCart, 
-      clearCart 
-    }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

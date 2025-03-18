@@ -1,14 +1,16 @@
 import React, { useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 const ProductCard = ({ products }) => {
+  const navigate = useNavigate();
+
   const getCategoryName = (code) => {
     const categoryMap = {
       LA: "Living Area",
       GA: "Garden Area",
       BD: "Bedroom",
     };
-    return categoryMap[code] || code; // Default to the original code if not found
+    return categoryMap[code] || code;
   };
 
   const shuffleArray = (array) => {
@@ -20,7 +22,15 @@ const ProductCard = ({ products }) => {
     return shuffled;
   };
 
-  const shuffledProducts = useMemo(() => shuffleArray(products), [products]); //To shuffle the Projects
+  // ✅ Handle adding item to cart & navigating to CartPage
+  const handleAddToCart = (product) => {
+    if (product) {
+      const encodedProduct = encodeURIComponent(JSON.stringify([product])); // Convert product to URL-safe format
+      navigate(`/cart/${encodedProduct}`);
+    }
+  };
+
+  const shuffledProducts = useMemo(() => shuffleArray(products), [products]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -29,15 +39,20 @@ const ProductCard = ({ products }) => {
           <img
             src={product.image || "/placeholder.png"}
             alt={product.name}
-            className="w-full h-48 object-cover rounded-lg mb-4"
+            className="w-full h-48 object-contain rounded-lg mb-4"
           />
-          <h3 className="text-lg font-medium w-full overflow-hidden whitespace-nowrap text-ellipsis">
-            {product.name}
-          </h3>
+          <h3 className="text-lg font-medium">{product.name}</h3>
           <p className="text-gray-600">{getCategoryName(product.category)}</p>
           <p className="text-green-600 font-semibold">₹{product.price}</p>
+
+          <button 
+            onClick={() => handleAddToCart(product)} 
+            className="mt-2 w-full bg-[#87421f] text-white py-2 rounded-lg hover:bg-[#978d89]">
+            Add to Cart
+          </button>
+
           <NavLink to={`/products/${product._id}`}>
-            <button className="mt-2 w-full bg-[#87421f] text-white py-2 rounded-lg hover:bg-[#978d89]">
+            <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg">
               View Details
             </button>
           </NavLink>
@@ -48,55 +63,3 @@ const ProductCard = ({ products }) => {
 };
 
 export default ProductCard;
-
-
-// import { useContext } from "react";
-// import { CartContext } from "../context/cart.context";
-// import { NavLink } from "react-router-dom";
-
-// const ProductCard = ({ products }) => {
-//   const { addToCart } = useContext(CartContext);
-
-//   // Function to shuffle products
-//   const shuffleArray = (array) => {
-//     return [...array].sort(() => Math.random() - 0.5);
-//   };
-
-//   const shuffledProducts = shuffleArray(products || []);
-
-//   return (
-//     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//       {shuffledProducts.map((product) => (
-//         <div key={product._id} className="border rounded-lg p-4 shadow-md">
-//           <img
-//             src={product.image || "/placeholder.png"}
-//             alt={product.name}
-//             className="w-full h-48 object-cover rounded-lg mb-4"
-//           />
-//           <h3 className="text-lg font-medium w-full overflow-hidden whitespace-nowrap text-ellipsis">
-//             {product.name}
-//           </h3>
-//           <p className="text-gray-600">{product.category}</p>
-//           <p className="text-green-600 font-semibold">₹{product.price}</p>
-
-//           {/* View Details Button */}
-//           <NavLink to={`/products/${product._id}`}>
-//             <button className="mt-2 w-full bg-[#87421f] text-white py-2 rounded-lg hover:bg-[#978d89]">
-//               View Details
-//             </button>
-//           </NavLink>
-
-//           {/* Add to Cart Button */}
-//           <button
-//             onClick={() => addToCart(product)}
-//             className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
-//           >
-//             Add to Cart
-//           </button>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ProductCard;
