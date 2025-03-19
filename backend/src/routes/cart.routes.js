@@ -2,7 +2,7 @@
 
 
 import express from "express";
-import { addItemToCart, removeItemFromCart, getCart } from "../controllers/cart.Controller.js";
+import { addItemToCart, removeItemFromCart, getCart } from "../controllers/cart.controller.js";
 
 
 const router = express.Router();
