@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useReducer } from "react";
-import Signup from "./pages/Signup";
+import Signup from "./pages/signup";
 import TermsAndConditions from "./pages/Terms";
 // import Cart from "./pages/cart.jsx";
 
@@ -22,6 +22,8 @@ import LoginPage from "./pages/login";
 import AdminDashboard from "./pages/adminDashboard";
 import Contact from "../src/pages/ContactUs";
 import Cart from "./pages/Cart";
+import ForgotPasswordPage from "./pages/ForgatedPassword";
+import OTPVerificationPage from "./pages/OtpVerification";
 
 
  const initialCartState={cartItems:[]};
@@ -57,6 +59,8 @@ function App() {
         <Route path="/admin/contacts" element={<AdminContacts/>}/>
         <Route path="/contactus" element={<Contact/>}/>
        <Route path="/cart/*" element={<Cart/>}/>
+       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+       <Route path="/verify-otp" element={<OTPVerificationPage />} />
 
 
         

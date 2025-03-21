@@ -85,6 +85,14 @@ const LoginPage = () => {
             Sign Up
           </Link>
         </p>
+
+
+        <p className="text-center text-[#5c4033] mt-4">
+          If you forget your password{" "}
+          <Link to="/forgot-password" className="text-[#d2a679] hover:underline">
+            ForgatedPassword
+          </Link>
+        </p>
       </motion.div>
     </div>
   );

@@ -1,9 +1,11 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FiEye, FiEyeOff } from "react-icons/fi"; // ✅ Import Eye Icons
+
+import axios from "../api/axios";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -14,10 +16,12 @@ const SignupPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    
     mobile: "",
     agreeToTerms: false,
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Validation Functions
   const validateEmail = (email) =>
@@ -36,7 +40,7 @@ const SignupPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(formData.email)) {
@@ -66,8 +70,15 @@ const SignupPage = () => {
       return;
     }
 
-    toast.success("Signup Successful!");
-    navigate("/");
+    try {
+      const res = await axios.post("/api/auth/signup", formData);
+      console.log("Signup Successful", res.data);
+      toast.success("Signup Successful!");
+      navigate("/");
+    } catch (err) {
+      console.error("Signup Failed", err.response?.data);
+      toast.error("Signup Unsuccessful!");
+    }
   };
 
   return (
@@ -114,33 +125,58 @@ const SignupPage = () => {
             <option value="Other">Other</option>
           </select>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded"
-          />
+          <div className="flex items-center border rounded p-2">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+              required
+              className="w-full outline-none"
+            />
+            <button
+              type="button"
+              className="ml-2 text-[#d2a679] font-bold hover:underline"
+            >
+              Verify Email
+            </button>
+          </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              required
+              className="w-full border p-2 rounded"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer text-gray-500"
+              onMouseEnter={() => setShowPassword(true)}
+              onMouseLeave={() => setShowPassword(false)}
+            >
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </span>
+          </div>
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded"
-          />
-
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              onChange={handleChange}
+              required
+              className="w-full border p-2 rounded"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer text-gray-500"
+              onMouseEnter={() => setShowConfirmPassword(true)}
+              onMouseLeave={() => setShowConfirmPassword(false)}
+            >
+              {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+            </span>
+          </div>
 
           <input
             type="text"
@@ -183,8 +219,6 @@ const SignupPage = () => {
           </Link>
         </p>
       </motion.div>
-
-      {/* ✅ Add ToastContainer here */}
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
