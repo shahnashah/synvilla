@@ -14,7 +14,7 @@ const SignupPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    age: "",
+    
     mobile: "",
     agreeToTerms: false,
   });
@@ -141,14 +141,6 @@ const SignupPage = () => {
             className="w-full border p-2 rounded"
           />
 
-          <input
-            type="number"
-            name="age"
-            placeholder="Age"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded"
-          />
 
           <input
             type="text"

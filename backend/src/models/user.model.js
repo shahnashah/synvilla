@@ -14,20 +14,17 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       require: true,
-      minlength: 10,
+      minlength: 8,
     },
     profilePic:{
       type:String,
       default:""
     },
-    gender: {
+    gender:{
       type: String,
       required: true,
     },
-    age: {
-      type: String,
-      required: true,
-    },
+  
     orders: {
       type: Array,
       default: [],

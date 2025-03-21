@@ -5,10 +5,12 @@ import path from "path";
 
 // Signup ----------------------------------------------------------------------------------------------------
 export const signup = async (req, res, next) => {
-  const { fullName, email, password ,gender,age,mobile} = req.body;
+  const { fullName, email, password ,gender,mobile} = req.body;
   console.log(fullName, email, password);
   try {
-    if (!fullName || !email || !password ||!gender || !age ||!mobile) {
+    console.log(req.body);
+    
+    if (!fullName || !email || !password ||!gender ||!mobile) {
       return res.status(400).json({ error: "All Fields Required!!!" });
     }
 
@@ -22,7 +24,7 @@ export const signup = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ fullName, email, password: hashedPassword });
+    const newUser = await User.create({ fullName, email, password: hashedPassword,gender});
 
     console.log(newUser._id);
     res.status(201).json({ message: `Welcome to SynVilla, ${fullName}!` });
@@ -40,7 +42,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ error: "All fields required!!!" });
     }
 
-    if (password.length < 10) {
+    if (password.length <8) {
       return res.status(400).json({ error: "Password must contain at least 10 characters" });
     }
 
@@ -54,12 +56,13 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
 
+    console.log("i am here")
     generateToken(user.id, res);
     res.status(200).json({
       message: `Welcome Back, ${user.fullName}!`,
       fullName: user.fullName,
       email: user.email,
-      userProfile: user.userProfile,
+      
     });
   } catch (error) {
     next(error);
@@ -68,7 +71,8 @@ export const login = async (req, res, next) => {
 
 // Logout ----------------------------------------------------------------------------------------------------
 export const logout = (req, res, next) => {
-  try {
+  try { 
+    console.log("user log out")
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "See you soon!" });
   } catch (error) {
