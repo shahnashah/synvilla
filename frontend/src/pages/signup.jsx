@@ -3,15 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // ✅ Import Eye Icons
-
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from "../api/axios";
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     gender: "",
     email: "",
     password: "",
@@ -23,13 +21,8 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Validation Functions
-  const validateEmail = (email) =>
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-
-  const validatePassword = (password) =>
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password);
-
+  const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  const validatePassword = (password) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password);
   const validateMobile = (mobile) => /^[0-9]{10}$/.test(mobile);
 
   const handleChange = (e) => {
@@ -49,9 +42,7 @@ const SignupPage = () => {
     }
 
     if (!validatePassword(formData.password)) {
-      toast.error(
-        "Password must be at least 6 characters, include 1 uppercase, 1 lowercase, and 1 number"
-      );
+      toast.error("Password must be at least 6 characters, include 1 uppercase, 1 lowercase, and 1 number");
       return;
     }
 
@@ -94,24 +85,14 @@ const SignupPage = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              onChange={handleChange}
-              required
-              className="border p-2 rounded w-full"
-            />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              onChange={handleChange}
-              required
-              className="border p-2 rounded w-full"
-            />
-          </div>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            onChange={handleChange}
+            required
+            className="border p-2 rounded w-full"
+          />
 
           <select
             name="gender"
@@ -125,22 +106,14 @@ const SignupPage = () => {
             <option value="Other">Other</option>
           </select>
 
-          <div className="flex items-center border rounded p-2">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              onChange={handleChange}
-              required
-              className="w-full outline-none"
-            />
-            <button
-              type="button"
-              className="ml-2 text-[#d2a679] font-bold hover:underline"
-            >
-              Verify Email
-            </button>
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
           <div className="relative">
             <input
@@ -195,7 +168,7 @@ const SignupPage = () => {
               className="mr-2"
             />
             <label>
-              I agree to the{" "}
+              I agree to the {" "}
               <Link to="/terms" className="text-[#d2a679] hover:underline">
                 Terms and Conditions
               </Link>
@@ -213,7 +186,7 @@ const SignupPage = () => {
         </form>
 
         <p className="text-center text-[#5c4033] mt-4">
-          Already have an account?{" "}
+          Already have an account? {" "}
           <Link to="/login" className="text-[#d2a679] hover:underline">
             Login
           </Link>

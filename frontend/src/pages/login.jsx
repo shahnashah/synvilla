@@ -1,35 +1,32 @@
-
-
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Simulating authentication
-    const user = { email: formData.email };
-    localStorage.setItem("user", JSON.stringify(user));
+    setError("");
 
-    alert("Login Successful!");
-    navigate("/"); // Redirect to Home
+    try {
+      const res = await axios.post("http://localhost:5002/api/auth/login", formData, {
+        withCredentials: true, // Ensure cookies are sent
+      });
+
+      alert(res.data.message); // Show welcome message
+      navigate("/"); // Redirect to Home page
+    } catch (err) {
+      setError(err.response?.data?.error || "Something went wrong");
+    }
   };
 
   return (
@@ -43,6 +40,8 @@ const LoginPage = () => {
         <h2 className="text-2xl font-semibold text-center text-[#5c4033] mb-6">
           Welcome Back to <span className="text-[#caa279]">SynVilla</span>
         </h2>
+
+        {error && <p className="text-red-500 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -80,17 +79,16 @@ const LoginPage = () => {
         </form>
 
         <p className="text-center text-[#5c4033] mt-4">
-          Don't have an account?{" "}
+          Don't have an account? {" "}
           <Link to="/signup" className="text-[#d2a679] hover:underline">
             Sign Up
           </Link>
         </p>
 
-
         <p className="text-center text-[#5c4033] mt-4">
-          If you forget your password{" "}
+          Forgot your password? {" "}
           <Link to="/forgot-password" className="text-[#d2a679] hover:underline">
-            ForgatedPassword
+            Reset Password
           </Link>
         </p>
       </motion.div>
@@ -99,6 +97,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-
-

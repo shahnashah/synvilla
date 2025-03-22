@@ -13,6 +13,7 @@ import contactRoutes from "../backend/src/routes/contact.routes.js";
 import userRoutes from "../backend/src/routes/admin.routes.js"
 import cartroutes from "../backend/src/routes/cart.routes.js";
 
+
 const app = express();
 
 // Middleware
@@ -29,6 +30,9 @@ const __dirname = path.dirname(__filename);
 // ✅ Correct Static File Serving for Image Uploads
 app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 
+app.use("/uploads", express.static("uploads"));
+
+
 
 // Routes
 app.use("/api/admin", adminRoutes);
@@ -37,6 +41,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api", userRoutes);
 app.use("/api/cart", cartroutes);
+//app.use("/api/profile", profileRoutes);
 
 // Health check route
 app.get("/", (req, res) => {
