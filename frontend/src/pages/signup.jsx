@@ -129,7 +129,7 @@ const SignupPage = () => {
               onMouseEnter={() => setShowPassword(true)}
               onMouseLeave={() => setShowPassword(false)}
             >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
+              {showPassword ? <FiEye /> : <FiEyeOff />}
             </span>
           </div>
 
@@ -147,7 +147,7 @@ const SignupPage = () => {
               onMouseEnter={() => setShowConfirmPassword(true)}
               onMouseLeave={() => setShowConfirmPassword(false)}
             >
-              {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+              {showConfirmPassword ? <FiEye /> : <FiEyeOff />}
             </span>
           </div>
 

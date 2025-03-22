@@ -12,6 +12,11 @@ import adminRoutes from "./src/routes/admin.routes.js";
 import contactRoutes from "../backend/src/routes/contact.routes.js";
 import userRoutes from "../backend/src/routes/admin.routes.js"
 import cartroutes from "../backend/src/routes/cart.routes.js";
+import otpRoutes from "../backend/src/routes/otp.routes.js";
+
+
+
+
 
 
 const app = express();
@@ -41,7 +46,10 @@ app.use("/api/products", productRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api", userRoutes);
 app.use("/api/cart", cartroutes);
-//app.use("/api/profile", profileRoutes);
+
+
+app.use("/api/auth", otpRoutes);
+
 
 // Health check route
 app.get("/", (req, res) => {

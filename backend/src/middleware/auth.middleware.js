@@ -72,3 +72,4 @@ export const confirmUser = async (req, res, next) => {
       next(error);
     }
   };
+  export default TokenGuard;

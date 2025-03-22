@@ -26,6 +26,7 @@ import ForgotPasswordPage from "./pages/ForgatedPassword";
 import OTPVerificationPage from "./pages/OtpVerification";
 
 
+
  const initialCartState={cartItems:[]};
 
 
@@ -61,6 +62,8 @@ function App() {
        <Route path="/cart/*" element={<Cart/>}/>
        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
        <Route path="/verify-otp" element={<OTPVerificationPage />} />
+       
+
 
 
         
