@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import bgImage from "../assets/reset1.jpg";
 
 const ResetPassword = () => {

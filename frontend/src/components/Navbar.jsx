@@ -120,7 +120,7 @@ const Navbar = () => {
               onClick={handleNavClick}
             >
               {" "}
-              Timeless Picks
+              Fresh Finds 
             </NavLink>
           </li>
           <li>

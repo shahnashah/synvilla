@@ -30,8 +30,14 @@ const NewArrival = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-semibold mb-6 text-center">
-        New Arrivals
+      <h2 className="text-2xl font-bold mb-6 text-center">
+      
+
+      🆕Upgrade Your Home with Our Latest Collection!🛋️✨
+
+
+
+
       </h2>
 
       {loading && (

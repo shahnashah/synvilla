@@ -29,7 +29,7 @@ const GardenArea = () => {
  
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Garden Area</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">🌿 Garden Glow - Where Nature Finds Its Home ✨🌼 </h2>
 
       {loading && (
         <p className="text-center text-gray-600">Loading Your Garden Area...</p>

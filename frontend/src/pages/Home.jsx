@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
@@ -13,11 +11,81 @@ import homeVisitImg from "../assets/homevisit.webp";
 import touchFeelImg from "../assets/feel.webp";
 import consultationImg from "../assets/free.webp";
 import bannerImage from "../assets/bannerone.webp";
-import livingAreaImg from "../assets/coffeetable.jpg";
-import bedroomImg from "../assets/coffeetable.jpg";
-import newArrivalImg from "../assets/coffeetable.jpg";
-import gardenImg from "../assets/coffeetable.jpg";
+import livingAreaImg from "../assets/living.jpg";
+import bedroomImg from "../assets/bedroom1.jpg";
+import newArrivalImg from "../assets/newArrival.jpg";
+import gardenImg from "../assets/bedroom.jpg";
+
+import swiper1 from "../assets/swiper1.jpg"
+import swiper2 from "../assets/swiper2.jpg"
+import swiper3 from "../assets/swiper3.jpg"
+import swiper4 from "../assets/swiper4.jpg"
+import swiper5 from "../assets/swiper5.jpg"
+import swiper6 from "../assets/swiper6.jpg"
+import img1 from "../assets/img1.jpg";
+import img2 from "../assets/img2.jpg";
+import img3 from "../assets/img3.jpg";
+import samll1 from "../assets/small1.jpg";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import clock from "../assets/clocks.jpg";
+import candle from "../assets/candle-stands.jpg";
+import incense from  "../assets/incense-holders.jpg";
+import bookends from "../assets/bookends.jpg" ;
+import photo from "../assets/photo-frames.jpg";
+import centrepiece from "../assets/centerpiece.jpg" ;
+import plates from "../assets/decorative-plates.jpg" ;
+
 import Footer from "../components/Footer";
+
+const slides = [
+  { img: swiper1, title: "BIRD FIGURINES" },
+  { img: swiper2, title: "CAST IRON COLLECTION" },
+  { img: swiper3, title: "VASES" },
+  { img: swiper4, title: "PHOTO FRAMES" },
+  { img: swiper5, title: "ANIMAL FIGURINES" },
+  { img: swiper6, title: "DECORATIVE PLATES" },
+  { img: swiper1, title: "BIRD FIGURINES" },
+  { img: swiper2, title: "CAST IRON COLLECTION" },
+  { img: swiper3, title: "VASES" },
+  { img: swiper4, title: "PHOTO FRAMES" },
+];
+
+const slide = [
+  {
+    img: img1,
+    
+  },
+  {
+    img: img2,
+    
+  },
+  {
+    img: img3,
+   
+  },
+  {
+    img: samll1,
+   
+  },
+ 
+];
+
+const categories = [
+  { name: "Clocks", img: clock },
+  { name: "Candle Stands", img: candle },
+  { name: "Incense Holders", img: incense },
+  { name: "Bookends", img: bookends },
+  { name: "Photo Frames", img:photo  },
+  { name: "Centrepiece Decorative Bowls", img:centrepiece },
+  { name: "Decorative Plates", img:plates },
+];
+
 
 
 const HeroSection = () => {
@@ -26,6 +94,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     gsap.fromTo(
@@ -54,10 +123,11 @@ const HeroSection = () => {
   <div
     ref={bgRef}
     className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-fixed"
-    style={{ backgroundImage: `url(${bgImage})` }}
+    style={{ backgroundImage: `url(${bgImage}) `}}
   >
     {/* Opacity Overlay */}
-    <div className="absolute inset-0 bg-black/50"></div>
+    <div className="absolute inset-0 bg-black/50">
+    </div>
   </div>
 
   {/* Text Content */}
@@ -78,6 +148,141 @@ const HeroSection = () => {
     </button>
   </div>
 </div>
+
+<div className="flex justify-center gap-6 py-8">
+      {categories.map((category, index) => (
+        <div
+          key={index}
+          className="flex flex-col items-center cursor-pointer"
+          onClick={() => setSelected(index)}
+        >
+          <div
+            className={`w-24 h-24 rounded-full overflow-hidden border-2 ${
+              selected === index ? "border-green-600" : "border-transparent"
+            }`}
+          >
+            <img
+              src={category.img}
+              alt={category.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <p
+            className={`mt-2 text-sm ${
+              selected === index ? "text-green-600 font-semibold" : "text-black"
+            }`}
+          >
+            {category.name}
+          </p>
+        </div>
+      ))}
+    </div>
+
+<div className="w-full h-[500px] relative overflow-hidden mt-15">
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        loop={true}
+        className="w-full h-full"
+      >
+        {slide.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div className="relative w-full h-[500px] flex items-center">
+              <img
+                src={slide.img}
+                alt="Slide"
+                className="w-full h-full object-cover absolute inset-0"
+              />
+             
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div className="w-full max-w-7.3xl mx-auto py-8 px-4 bg-white">
+      <h2 className="text-center text-lg uppercase tracking-widest font-semibold text-gray-700">
+        Finishing Touches: Decor Favourites
+      </h2>
+
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={5}
+        slidesPerView={4}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 3000 }}
+        className="mt-7"
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide key={index} className="flex justify-center ">
+            <motion.div
+              className="relative w-[350px] h-[580px]  shadow-lg overflow-hidden  rounded-t-full p-3"
+              whileHover={{ scale: 1.02 }}
+            >
+              {/* Image with Arch Border */}
+              <motion.img
+                src={slide.img}
+                alt={slide.title}
+                className="w-full h-[500px]  border-t- 5 border-4 border-none rounded-t-full rounded-b-none" whileHover={{ scale: 1.05 }} initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              />
+
+              {/* Title */}
+              <div className="absolute bottom-10 w-full text-center py-3  bg-white">
+                <h3 className="text-md font-medium text-gray-700">{slide.title}</h3>
+              </div>
+            </motion.div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* Product Showcase Section */}
       <motion.div
@@ -132,41 +337,29 @@ const HeroSection = () => {
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-800">
           Explore Our <span className="text-gray-500">Categories</span>
         </h2>
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 justify-center">
-          {[
-            { img: livingAreaImg , title: "Living Area", desc: "Transform your living space with stylish & comfortable furniture." },
-            { img: gardenImg ,title: "Garden Area", desc: "Bring elegance to your outdoor spaces with our premium garden collection." },
-            { img: bedroomImg ,title: "Bedroom", desc: "Upgrade your bedroom with cozy, modern, and elegant designs." },
-            { img: newArrivalImg, title: "New Arrivals", desc: "Check out the latest trends in furniture and home décor." }
-
-            
-          ].map((category, index) => (
-            <motion.div
-              key={index}
-              className="p-6 bg-gray-100 rounded-xl shadow-md text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.1 }}
-            >
-              <h3 className="text-xl font-semibold text-gray-800">{category.name}</h3>
-              <p className="text-gray-600 mt-2 text-sm">{category.desc}</p>
-            </motion.div>
-          ))}
-        </div>*/}
-      </motion.div> 
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 justify-center">
-           {[{ img: homeVisitImg, title: "Home Visits", desc: "Experience our furniture in your own home before buying." },
-            { img: touchFeelImg, title: "Touch & Feel", desc: "Feel the quality and comfort of our materials." },
-            { img: consultationImg, title: "Free Consultation", desc: "Get expert advice for the perfect fit for your space." },
-            { img: consultationImg, title: "Free Consultation", desc: "Get expert advice for the perfect fit for your space." }]
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 justify-center">
+        {[{ img: newArrivalImg, title: "New Arrivals", desc: "Check out the latest trends in furniture and home décor."  },
+            { img: livingAreaImg, title: "Living Area", desc: "Transform your living space with stylish & comfortable furniture." },
+            { img: bedroomImg, title: "Bedroom", desc: "Upgrade your bedroom with cozy, modern, and elegant designs." },
+            { img: gardenImg, title: "Garden Area", desc: "Bring elegance to your outdoor spaces with our premium garden collection." }]
             .map((reason, index) => (
-              <div key={index} className="p-6  rounded-xl shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <img src={reason.img} alt={reason.title} className="w-100 h-80 object-contain rounded-lg" />
-                <h3 className="text-xl font-semibold text-gray-800 mt-4 text-center">
+              
+             <div
+  key={index}
+  className="p-6 bg-gray-100 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-t-xl"
+>
+  <img
+    src={reason.img}
+    alt={reason.title}
+    className="w-100 h-80 object-contain rounded-t-xl"
+  />
+  <h3 className="text-xl font-semibold text-gray-800 mt-4 text-center">
+    {reason.title}
+  
+  <p className="text-gray-600 mt-2 text-sm text-center">{reason.desc}
+
   {reason.title}
+  </p>
 </h3>
 <p className="text-gray-600 mt-2 text-sm text-center">
   {reason.desc}
@@ -174,7 +367,9 @@ const HeroSection = () => {
 
               </div>
           ))}
+
         </div>
+      </motion.div>
 
       <div className="w-full py-16 bg-white">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-800">
